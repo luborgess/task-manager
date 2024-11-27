@@ -36,7 +36,7 @@ interface TaskCheckerProps {
 }
 
 const TaskChecker: React.FC<TaskCheckerProps> = ({ currentUser }) => {
-  const { tasks, updateTasks, toggleTask, getDailyTaskResident, isTaskOverdue, getTaskDeadline, residents } = useTasksStore();
+  const { tasks, updateTasks, toggleTask, getDailyTaskResident, isTaskOverdue, getTaskDeadline, residents, taskOrders } = useTasksStore();
   const { canResetStorage } = useAuthStore();
   const [showReport, setShowReport] = useState(false);
 
