@@ -221,7 +221,11 @@ const TaskChecker: React.FC<TaskCheckerProps> = ({ currentUser }) => {
       autoTable(doc, {
         startY: yOffset,
         head: [['Tarefa', 'Responsável', 'Data']],
-        body: monthData.tasks.map(t => [t.title, Array.isArray(t.assignedTo) ? t.assignedTo.join(', ') : t.assignedTo, new Date(t.completedAt).toLocaleDateString('pt-BR')]),
+        body: monthData.tasks.map(t => [
+          t.title,
+          Array.isArray(t.assignedTo) ? t.assignedTo.join(', ') : t.assignedTo,
+          t.completedAt ? new Date(t.completedAt).toLocaleDateString('pt-BR') : ''
+        ]),
         styles: { fontSize: 10 },
         headStyles: { fillColor: [66, 139, 202] },
         alternateRowStyles: { fillColor: [245, 245, 245] },
