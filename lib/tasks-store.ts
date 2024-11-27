@@ -17,6 +17,15 @@ export interface Task {
   wasLate?: boolean      // Indica se a tarefa foi concluída com atraso
 }
 
+// Tipo para as chaves de taskOrders
+type TaskTitle = 
+  | 'Limpeza do banheiro esquerdo'
+  | 'Limpeza do banheiro direito'
+  | 'Limpeza da sala e cozinha'
+  | 'Retirar o Lixo'
+  | 'Limpeza da Geladeira'
+  | 'Ida ao mercado';
+
 interface TasksStore {
   tasks: Task[]
   updateTasks: (tasks: Task[]) => void
@@ -25,7 +34,7 @@ interface TasksStore {
   getTaskDeadline: (task: Task) => Date
   getDailyTaskResident: () => string
   residents: string[]
-  taskOrders: Record<string, readonly (string | string[])[]>
+  taskOrders: Record<TaskTitle, readonly (string | string[])[]>
 }
 
 // Lista de moradores para rotação na ordem correta
@@ -41,7 +50,7 @@ const residents = [
 ];
 
 // Definição das ordens específicas para cada tarefa
-const taskOrders: Record<string, readonly (string | string[])[]> = {
+const taskOrders: Record<TaskTitle, readonly (string | string[])[]> = {
   'Limpeza do banheiro esquerdo': ['Bruno', 'Robson', 'Kelvin', 'Lucas'],
   'Limpeza do banheiro direito': ['Gabriel', 'Natan','Luiz'],
   'Limpeza da sala e cozinha': [
@@ -133,22 +142,22 @@ export const useTasksStore = create<TasksStore>()(
         let assignedTo;
         if (task.requiresPair) {
           // Para tarefas que requerem dupla
-          const pairs = taskOrders[task.title] || [];
+          const pairs = task.title in taskOrders ? taskOrders[task.title as TaskTitle] : [];
           const weekNumber = Math.floor((now.getTime() - new Date('2024-01-01').getTime()) / (7 * 24 * 60 * 60 * 1000));
           assignedTo = pairs[weekNumber % pairs.length];
         } else if (task.recurrence === 'daily') {
           // Para tarefas diárias
-          const order = taskOrders[task.title] || residents;
+          const order = task.title in taskOrders ? taskOrders[task.title as TaskTitle] : residents;
           const dayNumber = Math.floor((now.getTime() - new Date('2024-01-01').getTime()) / (24 * 60 * 60 * 1000));
           assignedTo = order[dayNumber % order.length];
         } else if (task.recurrence === 'weekly') {
           // Para tarefas semanais
-          const order = taskOrders[task.title] || residents;
+          const order = task.title in taskOrders ? taskOrders[task.title as TaskTitle] : residents;
           const weekNumber = Math.floor((now.getTime() - new Date('2024-01-01').getTime()) / (7 * 24 * 60 * 60 * 1000));
           assignedTo = order[weekNumber % order.length];
         } else {
           // Para tarefas mensais
-          const order = taskOrders[task.title] || residents;
+          const order = taskOrders[task.title as TaskTitle] || residents;
           const monthNumber = differenceInMonths(now, new Date('2024-01-01'));
           assignedTo = order[monthNumber % order.length];
         }
