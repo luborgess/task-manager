@@ -15,13 +15,20 @@ interface Reservation {
   user: string;
 }
 
+// Dados iniciais com datas fixas
+const initialReservations: Reservation[] = [
+  { id: 1, date: '2024-01-24', slot: 'morning', user: 'john.doe' },
+  { id: 2, date: '2024-01-25', slot: 'evening', user: 'jane.smith' },
+  { id: 3, date: '2024-01-26', slot: 'morning', user: 'bob.ops' }
+];
+
 const LaundryWeeklyView: React.FC<LaundryWeeklyViewProps> = ({ currentUser }) => {
   const [currentWeek, setCurrentWeek] = useState(new Date());
-  const [reservations, setReservations] = useState<Reservation[]>([
-    { id: 1, date: formatDate(new Date()), slot: 'morning', user: 'john.doe' },
-    { id: 2, date: '2024-01-25', slot: 'evening', user: 'jane.smith' },
-    { id: 3, date: '2024-01-26', slot: 'morning', user: 'bob.ops' }
-  ]);
+  const [reservations, setReservations] = useState<Reservation[]>(initialReservations);
+
+  const formatDate = (date: Date) => {
+    return date.toISOString().split('T')[0];
+  };
 
   const getWeekDays = (date: Date) => {
     const week = [];
@@ -45,10 +52,6 @@ const LaundryWeeklyView: React.FC<LaundryWeeklyViewProps> = ({ currentUser }) =>
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     return date < today;
-  };
-
-  const formatDate = (date: Date) => {
-    return date.toISOString().split('T')[0];
   };
 
   const getSlotReservation = (date: Date, slot: 'morning' | 'evening') => {
