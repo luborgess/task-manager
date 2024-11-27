@@ -5,22 +5,35 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import ShoppingSchedule from './shopping-schedule';
 import WeeklyLaundryCalendar from './laundry-weekly-view';
+import { Task } from '@/lib/tasks-store';
 
-const TaskChecker = ({ currentUser }) => {
-  const [tasks, setTasks] = useState([
+interface TaskCheckerProps {
+  currentUser: string;
+}
+
+const TaskChecker: React.FC<TaskCheckerProps> = ({ currentUser }) => {
+  const [tasks, setTasks] = useState<Task[]>([
     {
       id: 1,
-      title: 'Limpar banheiro',
+      title: 'Limpeza do banheiro esquerdo',
       assignedTo: 'lucas',
       completed: false,
       createdAt: '2024-01-01',
+      deadline: '2024-01-08',
+      recurrence: 'weekly',
+      area: 'Banheiro',
+      order: 1,
     },
     {
       id: 2,
-      title: 'Varrer sala',
+      title: 'Limpeza do banheiro direito',
       assignedTo: 'luiz',
-      completed: true,
-      createdAt: '2024-01-02',
+      completed: false,
+      createdAt: '2024-01-01',
+      deadline: '2024-01-08',
+      recurrence: 'weekly',
+      area: 'Banheiro',
+      order: 2,
     },
     {
       id: 3,
@@ -28,6 +41,10 @@ const TaskChecker = ({ currentUser }) => {
       assignedTo: 'kelvin',
       completed: true,
       createdAt: '2024-01-03',
+      deadline: '2024-01-03',
+      recurrence: 'daily',
+      area: 'Cozinha',
+      order: 3,
     },
     {
       id: 4,
@@ -35,6 +52,10 @@ const TaskChecker = ({ currentUser }) => {
       assignedTo: 'bruno',
       completed: false,
       createdAt: '2024-01-04',
+      deadline: '2024-01-04',
+      recurrence: 'weekly',
+      area: 'Sala',
+      order: 4,
     },
     {
       id: 5,
@@ -42,6 +63,10 @@ const TaskChecker = ({ currentUser }) => {
       assignedTo: 'robson',
       completed: true,
       createdAt: '2024-01-05',
+      deadline: '2024-01-05',
+      recurrence: 'monthly',
+      area: 'Cozinha',
+      order: 5,
     }
   ]);
 
