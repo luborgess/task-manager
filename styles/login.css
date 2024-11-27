@@ -1,0 +1,125 @@
+/* Matrix theme styles scoped to login page */
+.login-page {
+  --matrix-green: #00ff41;
+  --matrix-dark: #001803;
+  --matrix-glow: #0fff41;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.login-card {
+  background: rgba(0, 0, 0, 0.85);
+  border-color: var(--matrix-green);
+  backdrop-filter: blur(8px);
+}
+
+.login-icon {
+  color: var(--matrix-green);
+}
+
+.login-title,
+.login-subtitle,
+.login-label {
+  color: var(--matrix-green);
+  text-shadow: 0 0 10px var(--matrix-glow);
+  letter-spacing: 0.1em;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.login-input {
+  background: rgba(0, 0, 0, 0.5);
+  border-color: var(--matrix-green);
+  color: var(--matrix-green);
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 0.1em;
+}
+
+.login-input::placeholder {
+  color: var(--matrix-green);
+  opacity: 0.5;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.login-input:focus {
+  box-shadow: 0 0 0 2px var(--matrix-glow);
+}
+
+.login-error {
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px solid #ff0000;
+  color: #ff0000;
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 0.1em;
+}
+
+.login-terms-container {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.login-checkbox {
+  border-color: var(--matrix-green);
+}
+
+.login-checkbox[data-state="checked"] {
+  background-color: var(--matrix-green);
+  border-color: var(--matrix-green);
+}
+
+.login-link {
+  color: var(--matrix-green);
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 0.1em;
+}
+
+.login-link:hover {
+  color: var(--matrix-glow);
+}
+
+.login-dialog {
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid var(--matrix-green);
+  backdrop-filter: blur(8px);
+}
+
+.login-dialog-title {
+  color: var(--matrix-green);
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 0.1em;
+}
+
+.login-terms-content {
+  border: 1px solid var(--matrix-green);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.login-terms-text {
+  color: var(--matrix-green);
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 0.05em;
+}
+
+.login-button {
+  background: var(--matrix-green);
+  color: var(--matrix-dark);
+  border: none;
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.login-button:hover {
+  background: var(--matrix-glow);
+}
+
+.login-footer {
+  color: var(--matrix-green);
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 0.05em;
+}
+
+.login-social-link {
+  color: var(--matrix-green);
+}
+
+.login-social-link:hover {
+  color: var(--matrix-glow);
+}
