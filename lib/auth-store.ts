@@ -75,7 +75,7 @@ export const useAuthStore = create<AuthStore>()(
 
       canResetStorage: () => {
         const state = get();
-        return state.isAuthenticated && state.currentUser && ADMIN_USERS.includes(state.currentUser);
+        return Boolean(state.isAuthenticated && state.currentUser && ADMIN_USERS.includes(state.currentUser));
       },
 
       changePassword: (currentPassword: string, newPassword: string) => {
