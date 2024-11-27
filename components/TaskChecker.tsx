@@ -21,7 +21,7 @@ import { TaskTitle } from '@/lib/tasks-store';
 
 interface Task {
   id: number;
-  title: string;
+  title: TaskTitle;
   assignedTo: string | string[];
   completed: boolean;
   createdAt: string;
@@ -64,10 +64,10 @@ const TaskChecker: React.FC<TaskCheckerProps> = ({ currentUser }) => {
               let newAssignedTo;
               
               if (task.requiresPair) {
-                const pairs = task.title in taskOrders ? taskOrders[task.title as TaskTitle] : [];
+                const pairs = taskOrders[task.title] || [];
                 newAssignedTo = pairs[newWeekNumber % pairs.length];
               } else {
-                const order = task.title in taskOrders ? taskOrders[task.title as TaskTitle] : residents;
+                const order = taskOrders[task.title] || residents;
                 newAssignedTo = order[newWeekNumber % order.length];
               }
 
