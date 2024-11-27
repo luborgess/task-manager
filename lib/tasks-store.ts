@@ -212,11 +212,21 @@ export const useTasksStore = create<TasksStore>()(
               } else {
                 const order = taskOrders[task.title] || residents;
                 const currentIndex = order.findIndex(
-                  resident => resident.toLowerCase() === (
-                    Array.isArray(task.assignedTo) 
-                      ? task.assignedTo[0].toLowerCase() 
-                      : task.assignedTo.toLowerCase()
-                  )
+                  resident => {
+                    if (Array.isArray(resident)) {
+                      return resident[0].toLowerCase() === (
+                        Array.isArray(task.assignedTo) 
+                          ? task.assignedTo[0].toLowerCase() 
+                          : task.assignedTo.toLowerCase()
+                      );
+                    } else {
+                      return resident.toLowerCase() === (
+                        Array.isArray(task.assignedTo) 
+                          ? task.assignedTo[0].toLowerCase() 
+                          : task.assignedTo.toLowerCase()
+                      );
+                    }
+                  }
                 );
                 nextAssignedTo = order[(currentIndex + 1) % order.length];
               }
