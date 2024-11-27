@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import ShoppingSchedule from './shopping-schedule';
 import WeeklyLaundryCalendar from './laundry-weekly-view';
-import { Task } from '@/lib/tasks-store';
+import { Task, TaskTitle } from '@/lib/tasks-store';
 
 interface TaskCheckerProps {
   currentUser: string;
@@ -37,33 +37,34 @@ const TaskChecker: React.FC<TaskCheckerProps> = ({ currentUser }) => {
     },
     {
       id: 3,
-      title: 'Lavar louça',
-      assignedTo: 'kelvin',
+      title: 'Limpeza da sala e cozinha',
+      assignedTo: ['kelvin', 'robson'],
       completed: true,
       createdAt: '2024-01-03',
-      deadline: '2024-01-03',
-      recurrence: 'daily',
-      area: 'Cozinha',
+      deadline: '2024-01-10',
+      recurrence: 'weekly',
+      area: 'Sala/Cozinha',
       order: 3,
+      requiresPair: true
     },
     {
       id: 4,
-      title: 'Tirar pó',
+      title: 'Retirar o Lixo',
       assignedTo: 'bruno',
       completed: false,
       createdAt: '2024-01-04',
-      deadline: '2024-01-04',
-      recurrence: 'weekly',
-      area: 'Sala',
+      deadline: '2024-01-05',
+      recurrence: 'daily',
+      area: 'Geral',
       order: 4,
     },
     {
       id: 5,
-      title: 'Organizar geladeira',
+      title: 'Limpeza da Geladeira',
       assignedTo: 'robson',
-      completed: true,
+      completed: false,
       createdAt: '2024-01-05',
-      deadline: '2024-01-05',
+      deadline: '2024-02-05',
       recurrence: 'monthly',
       area: 'Cozinha',
       order: 5,
