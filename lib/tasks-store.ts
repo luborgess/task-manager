@@ -18,7 +18,7 @@ export interface Task {
 }
 
 // Tipo para as chaves de taskOrders
-type TaskTitle = 
+export type TaskTitle = 
   | 'Limpeza do banheiro esquerdo'
   | 'Limpeza do banheiro direito'
   | 'Limpeza da sala e cozinha'
