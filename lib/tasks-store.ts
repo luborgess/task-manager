@@ -25,7 +25,7 @@ interface TasksStore {
   getTaskDeadline: (task: Task) => Date
   getDailyTaskResident: () => string
   residents: string[]
-  taskOrders: { [key: string]: (string | string[])[] }
+  taskOrders: Record<string, readonly (string | string[])[]>
 }
 
 // Lista de moradores para rotação na ordem correta
@@ -41,7 +41,7 @@ const residents = [
 ];
 
 // Definição das ordens específicas para cada tarefa
-const taskOrders = {
+const taskOrders: Record<string, readonly (string | string[])[]> = {
   'Limpeza do banheiro esquerdo': ['Bruno', 'Robson', 'Kelvin', 'Lucas'],
   'Limpeza do banheiro direito': ['Gabriel', 'Natan','Luiz'],
   'Limpeza da sala e cozinha': [
@@ -58,7 +58,7 @@ const taskOrders = {
     ['Natan', 'Bruno'],
     ['Gabriel', 'Fulano']
   ]
-} as const;
+};
 
 // Função para calcular o próximo prazo baseado na recorrência
 const calculateNextDeadline = (baseDate: Date, recurrence: 'daily' | 'weekly' | 'monthly'): Date => {
