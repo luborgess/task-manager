@@ -13,6 +13,7 @@ interface AuthStore {
   logout: () => void
   canResetStorage: () => boolean
   changePassword: (currentPassword: string, newPassword: string) => boolean
+  resetStorage: () => void
 }
 
 const ADMIN_USERS = ['Lucas', 'Luiz'];
@@ -42,6 +43,13 @@ const getValidUsers = (): User[] => {
   } catch (error) {
     console.error('Error accessing localStorage:', error);
     return defaultUsers;
+  }
+};
+
+const resetStorage = () => {
+  if (typeof window !== 'undefined') {
+    window.localStorage.removeItem('valid-users');
+    window.localStorage.setItem('valid-users', JSON.stringify(defaultUsers));
   }
 };
 
@@ -101,6 +109,14 @@ export const useAuthStore = create<AuthStore>()(
         validUsers[userIndex].password = newPassword;
         window.localStorage.setItem('valid-users', JSON.stringify(validUsers));
         return true;
+      },
+
+      resetStorage: () => {
+        resetStorage();
+        set({
+          currentUser: null,
+          isAuthenticated: false
+        });
       }
     }),
     {
