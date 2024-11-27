@@ -176,7 +176,11 @@ const TaskChecker: React.FC<TaskCheckerProps> = ({ currentUser }) => {
     doc.text("Relatório de Tarefas", 20, 20);
     
     // Organizar tarefas por mês
-    const tasksByMonth: { [key: string]: any[] } = {};
+    interface MonthData {
+      monthName: string;
+      tasks: Task[];
+    }
+    const tasksByMonth: { [key: string]: MonthData } = {};
     completedTasksList.forEach(task => {
       if (!task.completedAt) return; // Skip tasks without completedAt
       const date = new Date(task.completedAt);
@@ -189,12 +193,7 @@ const TaskChecker: React.FC<TaskCheckerProps> = ({ currentUser }) => {
           tasks: []
         };
       }
-      
-      tasksByMonth[monthKey].tasks.push({
-        task: task.title,
-        user: Array.isArray(task.assignedTo) ? task.assignedTo.join(', ') : task.assignedTo,
-        date: date.toLocaleDateString('pt-BR')
-      });
+      tasksByMonth[monthKey].tasks.push(task);
     });
     
     // Ordenar meses
@@ -222,7 +221,7 @@ const TaskChecker: React.FC<TaskCheckerProps> = ({ currentUser }) => {
       autoTable(doc, {
         startY: yOffset,
         head: [['Tarefa', 'Responsável', 'Data']],
-        body: monthData.tasks.map(t => [t.task, t.user, t.date]),
+        body: monthData.tasks.map(t => [t.title, Array.isArray(t.assignedTo) ? t.assignedTo.join(', ') : t.assignedTo, new Date(t.completedAt).toLocaleDateString('pt-BR')]),
         styles: { fontSize: 10 },
         headStyles: { fillColor: [66, 139, 202] },
         alternateRowStyles: { fillColor: [245, 245, 245] },
