@@ -294,6 +294,14 @@ const App = () => {
 const AppLayout = () => {
   const { user, logout } = useAuth();
 
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div>Redirecionando para login...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen">
       <div className="container mx-auto p-4">
