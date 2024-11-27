@@ -73,7 +73,7 @@ const TaskChecker: React.FC<TaskCheckerProps> = ({ currentUser }) => {
 
   const [showStats, setShowStats] = useState(true);
 
-  const handleTaskToggle = (taskId) => {
+  const handleTaskToggle = (taskId: number): void => {
     setTasks(tasks.map(task => {
       if (task.id === taskId) {
         if (task.assignedTo === currentUser) {
@@ -86,36 +86,51 @@ const TaskChecker: React.FC<TaskCheckerProps> = ({ currentUser }) => {
 
   // Calculate statistics
   const totalTasks = tasks.length;
-  const completedTasks = tasks.filter(task => task.completed).length;
+  const completedTasks = tasks.filter((task: Task) => task.completed).length;
   const completionRate = (completedTasks / totalTasks) * 100;
 
+  interface UserStat {
+    assigned: number;
+    completed: number;
+    user: string;
+    completionRate?: number;
+  }
+
   // Get unique users and their stats
-  const userStats = tasks.reduce((acc, task) => {
-    if (!acc[task.assignedTo]) {
-      acc[task.assignedTo] = {
+  const userStats = tasks.reduce<Record<string, UserStat>>((acc, task: Task) => {
+    const assignedTo = Array.isArray(task.assignedTo) ? task.assignedTo[0] : task.assignedTo;
+    if (!acc[assignedTo]) {
+      acc[assignedTo] = {
         assigned: 0,
         completed: 0,
-        user: task.assignedTo
+        user: assignedTo
       };
     }
-    acc[task.assignedTo].assigned += 1;
+    acc[assignedTo].assigned += 1;
     if (task.completed) {
-      acc[task.assignedTo].completed += 1;
+      acc[assignedTo].completed += 1;
     }
     return acc;
   }, {});
 
   // Convert to array and calculate completion rate
-  const userStatsArray = Object.values(userStats).map(stat => ({
+  const userStatsArray = Object.values(userStats).map((stat: UserStat) => ({
     ...stat,
     completionRate: (stat.completed / stat.assigned) * 100
   }));
 
   // Sort tasks to show assigned tasks first
-  const sortedTasks = [...tasks].sort((a, b) => {
+  const sortedTasks = [...tasks].sort((a: Task, b: Task) => {
     if (a.assignedTo === currentUser && b.assignedTo !== currentUser) return -1;
     if (a.assignedTo !== currentUser && b.assignedTo === currentUser) return 1;
     return 0;
+  });
+
+  const userTasks = tasks.filter((task: Task) => {
+    if (Array.isArray(task.assignedTo)) {
+      return task.assignedTo.includes(currentUser);
+    }
+    return task.assignedTo === currentUser;
   });
 
   return (
