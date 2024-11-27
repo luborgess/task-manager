@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -11,12 +11,20 @@ import { marked } from 'marked';
 import MatrixRain from '@/components/MatrixRain';
 
 // Create Auth Context with default values
+interface User {
+  username: string;
+}
+
 const AuthContext = createContext({
-  user: null,
-  login: () => {},
+  user: null as User | null,
+  login: (username: string, password: string) => false as boolean,
   logout: () => {},
-  changePassword: (username: string, currentPassword: string, newPassword: string) => false
+  changePassword: (username: string, currentPassword: string, newPassword: string) => false as boolean
 });
+
+interface AuthProviderProps {
+  children: React.ReactNode;
+}
 
 // Lista de usuários válidos
 export let validUsers = [
@@ -31,10 +39,10 @@ export let validUsers = [
 ];
 
 // Auth Provider Component
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(null);
 
-  const login = (username, password) => {
+  const login = (username: string, password: string): boolean => {
     const foundUser = validUsers.find(
       u => u.username.toLowerCase() === username.toLowerCase() && u.password === password
     );
@@ -87,21 +95,22 @@ export const useAuth = () => {
 };
 
 // Login Component
-export const LoginForm = () => {
+export const LoginForm: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [acceptedTerms, setAcceptedTerms] = useState(() => {
-    // Verifica se já aceitou os termos anteriormente
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('acceptedTerms') === 'true';
-    }
-    return false;
-  });
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
   const { login } = useAuth();
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    const savedTerms = localStorage.getItem('acceptedTerms');
+    if (savedTerms === 'true') {
+      setAcceptedTerms(true);
+    }
+  }, []);
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     
@@ -175,7 +184,7 @@ Ao utilizar este sistema, você concorda com estes termos de uso. O sistema é u
               </label>
               <Input
                 type="text"
-                className="login-input font-mono tracking-wider text-sm"
+                className="login-input font-mono tracking-wider text-sm text-black"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="_"
@@ -187,7 +196,7 @@ Ao utilizar este sistema, você concorda com estes termos de uso. O sistema é u
               </label>
               <Input
                 type="password"
-                className="login-input font-mono tracking-wider text-sm"
+                className="login-input font-mono tracking-wider text-sm text-black"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="_"
@@ -212,16 +221,16 @@ Ao utilizar este sistema, você concorda com estes termos de uso. O sistema é u
                       <FileText className="w-3 h-3 ml-1" />
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="login-dialog fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[95%] sm:w-[90%] max-w-lg h-[90vh] sm:h-[80vh] p-3 sm:p-4 flex flex-col">
+                  <DialogContent className="login-dialog fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[95%] sm:w-[90%] max-w-lg h-[90vh] sm:h-[80vh] p-3 sm:p-4 flex flex-col bg-zinc-900">
                     <DialogHeader className="mb-2 flex-shrink-0">
-                      <DialogTitle className="login-dialog-title text-center text-lg sm:text-xl tracking-wider">
+                      <DialogTitle className="login-dialog-title text-center text-lg sm:text-xl tracking-wider text-white">
                         [TERMOS DE USO]
                       </DialogTitle>
                     </DialogHeader>
-                    <div className="flex-1 min-h-0 rounded login-terms-content">
-                      <div className="h-full overflow-y-auto p-2 sm:p-4">
+                    <div className="flex-1 min-h-0 rounded login-terms-content overflow-y-auto">
+                      <div className="p-2 sm:p-4">
                         <div 
-                          className="text-xs sm:text-sm login-terms-text whitespace-pre-wrap"
+                          className="text-xs sm:text-sm text-white [&_h1]:text-lg [&_h1]:font-bold [&_h1]:mb-4 [&_h2]:text-base [&_h2]:font-bold [&_h2]:mb-3 [&_h3]:font-bold [&_h3]:mb-2 [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_li]:mb-2"
                           dangerouslySetInnerHTML={{ 
                             __html: marked(termsContent, {
                               gfm: true,

@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useEffect, useState } from 'react';
 import { CheckCircle, Circle, AlertCircle, Clock, FileText, Calendar } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -333,6 +335,7 @@ const TaskChecker: React.FC<TaskCheckerProps> = ({ currentUser }) => {
               {completedTasksList.map((task) => {
                 const completedDate = task.completedAt ? new Date(task.completedAt) : new Date();
                 const isValidCompletedDate = !isNaN(completedDate.getTime());
+                const assignedToUser = canCompleteTask(task.assignedTo);
 
                 return (
                   <div
@@ -342,7 +345,14 @@ const TaskChecker: React.FC<TaskCheckerProps> = ({ currentUser }) => {
                     }`}
                   >
                     <div className="flex items-center space-x-4">
-                      <CheckCircle className="h-6 w-6 text-green-500" />
+                      <button
+                        onClick={() => handleToggleTask(task.id)}
+                        disabled={!assignedToUser}
+                        className={`flex-shrink-0 ${!assignedToUser ? 'cursor-not-allowed opacity-50' : 'hover:scale-110 transition-transform'}`}
+                        title={assignedToUser ? "Desmarcar tarefa" : "Você só pode desmarcar suas próprias tarefas"}
+                      >
+                        <CheckCircle className="h-6 w-6 text-green-500" />
+                      </button>
                       <div>
                         <div className="font-medium">{task.title}</div>
                         <div className="text-sm text-gray-500">
