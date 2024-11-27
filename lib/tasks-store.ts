@@ -4,7 +4,7 @@ import { isAfter, startOfDay, addDays, startOfWeek, addWeeks, format, startOfMon
 
 export interface Task {
   id: number
-  title: string
+  title: TaskTitle
   assignedTo: string | string[]
   completed: boolean
   createdAt: string
