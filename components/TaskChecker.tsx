@@ -17,6 +17,7 @@ import { ChangePassword } from './ChangePassword';
 import { TaskMetrics } from './TaskMetrics';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { TaskTitle } from '@/lib/tasks-store';
 
 interface Task {
   id: number;
@@ -63,10 +64,10 @@ const TaskChecker: React.FC<TaskCheckerProps> = ({ currentUser }) => {
               let newAssignedTo;
               
               if (task.requiresPair) {
-                const pairs = taskOrders[task.title] || [];
+                const pairs = task.title in taskOrders ? taskOrders[task.title as TaskTitle] : [];
                 newAssignedTo = pairs[newWeekNumber % pairs.length];
               } else {
-                const order = taskOrders[task.title] || residents;
+                const order = task.title in taskOrders ? taskOrders[task.title as TaskTitle] : residents;
                 newAssignedTo = order[newWeekNumber % order.length];
               }
 
