@@ -25,7 +25,8 @@ const defaultUsers: User[] = [
   { username: 'Robson', password: '123456' },
   { username: 'Fulano', password: '123456' },
   { username: 'Natan', password: '123456' },
-  { username: 'Gabriel', password: '123456' }
+  { username: 'Gabriel', password: '123456' },
+  { username: 'Edila', password: '123456' }
 ];
 
 const getValidUsers = (): User[] => {

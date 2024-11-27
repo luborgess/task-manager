@@ -166,7 +166,7 @@ Ao utilizar este sistema, você concorda com estes termos de uso. O sistema é u
           <CardTitle className="text-xl sm:text-2xl font-bold text-center flex flex-col items-center gap-2 sm:gap-3">
             <User className="w-10 h-10 sm:w-12 sm:h-12 login-icon" />
             <div className="flex flex-col items-center">
-              <span className="login-title text-2xl sm:text-3xl mb-1">AP 402</span>
+              <span className="login-title text-2xl sm:text-3xl mb-1">402 HUB</span>
               <span className="login-subtitle text-base sm:text-lg">[SYSTEM LOGIN]</span>
             </div>
           </CardTitle>
