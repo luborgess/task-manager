@@ -178,6 +178,7 @@ const TaskChecker: React.FC<TaskCheckerProps> = ({ currentUser }) => {
     // Organizar tarefas por mês
     const tasksByMonth: { [key: string]: any[] } = {};
     completedTasksList.forEach(task => {
+      if (!task.completedAt) return; // Skip tasks without completedAt
       const date = new Date(task.completedAt);
       const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
       const monthName = date.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
