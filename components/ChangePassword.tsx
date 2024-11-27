@@ -23,6 +23,11 @@ export const ChangePassword = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (!user) {
+      setMessage('Usuário não autenticado');
+      return;
+    }
+    
     if (newPassword.length < 6) {
       setMessage('A nova senha deve ter pelo menos 6 caracteres');
       return;
