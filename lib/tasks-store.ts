@@ -23,6 +23,7 @@ interface TasksStore {
   toggleTask: (taskId: number) => void
   isTaskOverdue: (task: Task) => boolean
   getTaskDeadline: (task: Task) => Date
+  getDailyTaskResident: () => string
   residents: string[]
 }
 
@@ -247,6 +248,12 @@ export const useTasksStore = create<TasksStore>()(
         if (!task.deadline) return new Date();
         const deadline = new Date(task.deadline);
         return isNaN(deadline.getTime()) ? new Date() : deadline;
+      },
+
+      getDailyTaskResident: () => {
+        const now = new Date();
+        const daysSinceStart = Math.floor((now.getTime() - new Date('2024-01-01').getTime()) / (24 * 60 * 60 * 1000));
+        return residents[daysSinceStart % residents.length];
       },
 
       residents
