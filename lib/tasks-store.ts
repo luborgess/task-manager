@@ -85,24 +85,31 @@ const calculateNextDeadline = (baseDate: Date, recurrence: 'daily' | 'weekly' | 
 };
 
 // Tarefas fixas com suas recorrências
-const fixedTasks = [
+const fixedTasks: { 
+  id: number; 
+  title: TaskTitle; 
+  recurrence: 'daily' | 'weekly' | 'monthly'; 
+  area: string; 
+  order: number;
+  requiresPair?: boolean;
+}[] = [
   { 
     id: 1, 
-    title: 'Limpeza do banheiro esquerdo',
+    title: 'Limpeza do banheiro esquerdo' as TaskTitle,
     recurrence: 'weekly' as const,
     area: 'Banheiro',
     order: 1
   },
   { 
     id: 2, 
-    title: 'Limpeza do banheiro direito',
+    title: 'Limpeza do banheiro direito' as TaskTitle,
     recurrence: 'weekly' as const,
     area: 'Banheiro',
     order: 2
   },
   { 
     id: 3, 
-    title: 'Limpeza da sala e cozinha',
+    title: 'Limpeza da sala e cozinha' as TaskTitle,
     recurrence: 'weekly' as const,
     area: 'Sala/Cozinha',
     order: 3,
@@ -110,23 +117,23 @@ const fixedTasks = [
   },
   { 
     id: 4, 
-    title: 'Retirar o Lixo',
+    title: 'Retirar o Lixo' as TaskTitle,
     recurrence: 'daily' as const,
     area: 'Geral',
     order: 4
   },
   {
     id: 5,
-    title: 'Limpeza da Geladeira',
+    title: 'Limpeza da Geladeira' as TaskTitle,
     recurrence: 'monthly' as const,
     area: 'Cozinha',
     order: 5
   },
   {
     id: 6,
-    title: 'Ida ao mercado',
-    recurrence: 'monthly' as const,
-    area: 'Compras',
+    title: 'Ida ao mercado' as TaskTitle,
+    recurrence: 'weekly' as const,
+    area: 'Geral',
     order: 6,
     requiresPair: true
   }
