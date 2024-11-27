@@ -112,7 +112,8 @@ const TaskChecker: React.FC<TaskCheckerProps> = ({ currentUser }) => {
             return task;
           } else if (task.recurrence === 'monthly' && now.getDate() === 1) {
             // Atualiza tarefas mensais no primeiro dia do mês
-            const currentIndex = residents.indexOf(task.assignedTo);
+            const assignedTo = Array.isArray(task.assignedTo) ? task.assignedTo[0] : task.assignedTo;
+            const currentIndex = typeof assignedTo === 'string' ? residents.indexOf(assignedTo) : -1;
             const nextIndex = (currentIndex + 1) % residents.length;
             return { ...task, assignedTo: residents[nextIndex], completed: false };
           }
